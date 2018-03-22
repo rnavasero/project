@@ -63,7 +63,7 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
             itemView!!.tv_cart_product_name!!.text  = product.name
             itemView!!.tv_cart_product_price!!.text    = String.format("P %.2f", product.price.toFloat())
             itemView!!.tv_cart_qty!!.text = product.qty.toString()
-            itemView!!.tv_cart_product_flavor!!.text = product.flavor.toString()
+            itemView!!.tv_cart_product_flavor!!.text = product.flavor
             Picasso.with(mContext).load(product.imgUrl).resize(100, 100).centerCrop().into(itemView.img_product_image)
 
             setProductPrice(product)
@@ -83,7 +83,7 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
                 product.qty -= 1
 
                 if (product.qty <= 1){
-                    product.qty = 1
+                    product.qty = 0
                 }
 
                 mActivity?.setCartCount(mActivity!!.productCount - 1)

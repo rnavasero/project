@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.size_content.view.*
  * Created by codemagnus on 3/20/18.
  */
 class SizeAdapter(val mContext:Context):RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
-
     var mActivity: MainActivity? = null
     var itemList:MutableList<Product> = mutableListOf()
 

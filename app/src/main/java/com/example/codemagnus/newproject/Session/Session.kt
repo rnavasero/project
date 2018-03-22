@@ -28,10 +28,10 @@ class Session (context: Context){
         setUserLogIn(true)
     }
 
-//    fun user(): User {
-//        val jsonObject = JSONObject(sharedPreferences.getString(USER_OBJECT, "")).getJSONObject("data").getJSONArray("items").getJSONObject(0)
-//        return User(jsonObject)
-//    }
+    fun user(): User {
+        val jsonObject = JSONObject(sharedPreferences.getString(USER_OBJECT, "")).getJSONObject("data").getJSONArray("items").getJSONObject(0)
+        return User(jsonObject)
+    }
 
     private fun setUserLogIn(isLogin: Boolean){
         editor.putBoolean(USER_LOGIN, isLogin).apply()

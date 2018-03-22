@@ -62,11 +62,21 @@ class ProductAdapter(val mContext:Context?, itemList:MutableList<Product>?):Recy
             itemView.iv_item_content.setOnClickListener {
 
                 if (item.category == "Flavored Fries") {
+                    SizeSelectionFragment.category = item.category
                     mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
+
 
                 }
 
                 if (item.category == "Fancy Fries"){
+                    SizeSelectionFragment.category = item.category
+                    mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
+
+                }
+
+                if (item.category == "Beverages"){
+                    SizeSelectionFragment.category = item.category
+                    mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
 
                 }
             }

@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_gradient_yellow_blue"
-        tools:context="com.mycart.advance.activities.LoginActivity">
+        tools:context="com.mycart.advance.activities.LoginActivity"
+        android:paddingTop="30dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -21,8 +22,8 @@
             android:layout_marginStart="142dp"
             android:layout_marginTop="52dp"
             android:contentDescription="@null"
-            android:src="@drawable/pclogo"
-            android:tint="@color/orange"
+            android:src="@drawable/pclogonew"
+            android:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +32,7 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_login_storename"
             style="@style/EditTextStyle"
-            android:layout_width="335dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="45dp"
             android:layout_marginStart="45dp"
@@ -41,11 +42,11 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView">
 
             <EditText
-                android:shadowColor="@color/white"
                 android:id="@+id/et_login_storename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/storename"
+                android:shadowColor="@color/white"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16" />
 
@@ -54,7 +55,7 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_login_username"
             style="@style/EditTextStyle"
-            android:layout_width="335dp"
+            android:layout_width="300dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -64,11 +65,11 @@
             tools:ignore="UnknownId">
 
             <EditText
-                android:shadowColor="@color/white"
                 android:id="@+id/et_login_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username"
+                android:shadowColor="@color/white"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16" />
         </android.support.design.widget.TextInputLayout>
@@ -99,14 +100,19 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:shadowColor="@color/white"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
             android:layout_marginTop="32dp"
-            android:background="@drawable/rounded_button"
-            android:text="@string/login"
+            android:background="@drawable/rounded_button_green"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:shadowColor="@color/white"
+            android:text="L O g i n"
+            android:textColor="#FFFF00"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/input_login_password"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="@+id/input_login_password"
             app:layout_constraintTop_toBottomOf="@+id/input_login_password" />
 
@@ -114,15 +120,15 @@
             android:id="@+id/imageView2"
             android:layout_width="350dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="50dp"
+            android:elevation="4dp"
             android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_login"
-            app:layout_constraintVertical_bias="0.896"
+            app:layout_constraintVertical_bias="0.866"
             app:srcCompat="@drawable/pclogo"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="17dp" />
+            tools:layout_editor_absoluteX="30dp" />
 
 
     </android.support.constraint.ConstraintLayout>

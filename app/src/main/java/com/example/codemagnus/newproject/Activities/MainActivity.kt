@@ -41,29 +41,28 @@ class MainActivity : AppCompatActivity() {
     var productDB: ProductDataBase? = null
     var productCount = 0
     var staticData: MutableList<Product> = mutableListOf()
+    var sData:MutableList<Product> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        cart.add(Product("0", "Terra Fries",  R.drawable.pcterra,"Flavored Fries", "Terra", 199.00, 1))
-        cart.add(Product("1", "Giga Fries",  R.drawable.pcgiga,"Flavored Fries", "Giga", 149.00, 1))
-        cart.add(Product("2", "Mega Fries",  R.drawable.pcmega,"Flavored Fries", "Mega", 99.00, 1))
-        cart.add(Product("3", "Jumbo Fries",  R.drawable.pcjumbo,"Flavored Fries", "Jumbo", 79.00, 1))
-        cart.add(Product("4", "Large Fries",  R.drawable.pclarge,"Flavored Fries", "Large", 55.00, 1))
-        cart.add(Product("5", "Regular Fries",  R.drawable.pcregular,"Flavored Fries", "Regular", 35.00, 1))
+        cart.add(Product("0", "Terra Fries",  R.drawable.pcterra,"Flavored Fries","Sour & Cream", "Terra", 199.00, 0))
+        cart.add(Product("1", "Giga Fries",  R.drawable.pcgiga,"Flavored Fries", "Barbeque", "Giga", 149.00, 0))
+        cart.add(Product("2", "Mega Fries",  R.drawable.pcmega,"Flavored Fries","Chili Barbeque", "Mega", 99.00, 0))
+        cart.add(Product("3", "Jumbo Fries",  R.drawable.pcjumbo,"Flavored Fries","Wasabi", "Jumbo", 79.00, 0))
+        cart.add(Product("4", "Large Fries",  R.drawable.pclarge,"Flavored Fries", "Salted Caramel","Large", 55.00, 0))
+        cart.add(Product("5", "Regular Fries",  R.drawable.pcregular,"Flavored Fries", "Regular","Cheddar", 35.00, 0))
 
         fm = supportFragmentManager
         staticData = StaticSizeData.getlists()
+        sData = StaticData.getlists4()
         setSupportActionBar(mToolbar)
-        setToolbar(true, "My Store")
 
         menu = layoutInflater.inflate(R.layout.menu, null)
         mToolbar.addView(menu, 0, Toolbar.LayoutParams(Gravity.END))
         cartmenu = layoutInflater.inflate(R.layout.layout_cart, null)
         mToolbar.addView(cartmenu, 1, Toolbar.LayoutParams(Gravity.END))
-
-        setToolbar(true, "My Store")
 
         cartmenu?.setOnClickListener {
             setToolbar(false, "")
@@ -73,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             }.commit()
         }
 
-        setToolbar(true, "My Store")
+        setToolbar(true, "Potato Corner")
 
         mToolbar.setNavigationOnClickListener {
             onBackPressed()
@@ -154,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 super.onBackPressed()
             }
         } else {
-            setToolbar(true, "My Store")
+            setToolbar(true, "Potato Corner")
             super.onBackPressed()
         }
     }
@@ -181,7 +180,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setCartCount(count: Int) {
-        cartView?.tv_cart_count?.text = count.toString()
+        cartmenu?.tv_cart_count?.text = count.toString()
         productCount = count
     }
 }

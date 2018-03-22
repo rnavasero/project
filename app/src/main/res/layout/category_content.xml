@@ -7,8 +7,10 @@
     android:focusable="true"
     android:clickable="true"
     android:paddingLeft="1dp"
-    android:paddingRight="1dp">
+    android:paddingRight="1dp"
+    android:background="?attr/selectableItemBackgroundBorderless">
     <android.support.constraint.ConstraintLayout
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -17,11 +19,18 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
+            android:translationZ="5dp"
             android:id="@+id/cv_item"
             android:layout_width="85dp"
-            android:layout_height="85dp">
+            android:layout_height="85dp"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:focusableInTouchMode="true"
+            app:cardCornerRadius="5dp"
+            app:contentPadding="5dp"
+            app:cardElevation="5dp"
+            app:cardBackgroundColor="@color/white">
                 <ImageView
-
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/iv_item_content"
                     android:layout_width="wrap_content"
@@ -32,7 +41,7 @@
 
         <TextView
             android:textSize="12dp"
-            android:textColor="@color/orange"
+            android:textColor="@android:color/black"
             android:textStyle="bold|italic"
             android:textAlignment="center"
             android:id="@+id/tv_item_name"

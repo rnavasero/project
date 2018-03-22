@@ -10,13 +10,13 @@
     >
 
     <ImageView
+        android:tint="@color/white"
         android:layout_gravity="center_horizontal"
         android:id="@+id/menu_view"
         android:src="@drawable/ic_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="6dp"
         />
 
 </FrameLayout>

@@ -8,8 +8,10 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import com.example.codemagnus.newproject.Activities.MainActivity
 import com.example.codemagnus.newproject.Adapters.SizeAdapter
+import com.example.codemagnus.newproject.Adapters.SizeSelectAdapter
 import com.example.codemagnus.newproject.R
 import com.example.codemagnus.newproject.R.id.rv_sizeselect
 import kotlinx.android.synthetic.main.fragment_size_selection.*
@@ -19,10 +21,13 @@ import kotlinx.android.synthetic.main.fragment_size_selection.*
  */
 class SizeSelectionFragment: Fragment() {
 
+
     private var mActivity:MainActivity? = null
     private var adapter:SizeAdapter? = null
+    private var mAdapter:SizeSelectAdapter? = null
 
     companion object {
+        var category = ""
         val TAG: String = SizeSelectionFragment::class.java.simpleName
         var instance: SizeSelectionFragment? = SizeSelectionFragment()
 
@@ -32,6 +37,7 @@ class SizeSelectionFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         instance = this
         return inflater?.inflate(R.layout.fragment_size_selection, container, false)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -40,10 +46,25 @@ class SizeSelectionFragment: Fragment() {
 
         mActivity = context as MainActivity?
         mActivity?.setToolbar(false, "Choose desired size")
-
         adapter = SizeAdapter(context)
-        rv_sizeselect.layoutManager = GridLayoutManager(context,2)
-        rv_sizeselect.adapter = adapter
+        mAdapter = SizeSelectAdapter(context)
+
+        if(category == "Flavored Fries"){
+            rv_sizeselect.layoutManager = GridLayoutManager(context,2)
+            rv_sizeselect.adapter = adapter
+        }
+        else if(category == "Fancy Fries")
+        {
+            rv_sizeselect.layoutManager = GridLayoutManager(context,1)
+            rv_sizeselect.adapter = mAdapter
+        }
+        else if(category == "Beverages")
+        {
+            rv_sizeselect.layoutManager = GridLayoutManager(context,1)
+            rv_sizeselect.adapter = mAdapter
+        }
+
+
 
     }
 

@@ -47,7 +47,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="Your description here..."
                 android:textAlignment="viewStart"
-                android:textColor="@color/text_gray"
+                android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_cart_minus"
                 app:layout_constraintEnd_toEndOf="@+id/tv_cart_product_price"

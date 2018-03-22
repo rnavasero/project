@@ -182,11 +182,12 @@ class Product :Parcelable {
         this.category = category
     }
 
-    constructor(id: String, name: String, imgUrl: Int, category: String, size: String, price: Double, qty: Int) {
+    constructor(id: String, name: String, imgUrl: Int, category: String, flavor: String, size: String, price: Double, qty: Int) {
         this.id = id
         this.name = name
         this.imgUrl = imgUrl
         this.category = category
+        this.flavor = flavor
         this.size = size
         this.price = price
         this.qty = qty

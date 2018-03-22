@@ -144,5 +144,29 @@ class StaticData {
 
         }
 
+        fun getlists4(): ArrayList<Product> {
+            var product = ArrayList<Product>()
+            product.add(Product("0",
+                    "Small",
+                    R.drawable.cheese
+            ))
+
+
+            product.add(Product("1",
+                    "Medium",
+                    R.drawable.cheese
+            ))
+
+
+            product.add(Product("2",
+                    "Large",
+                    R.drawable.cheese
+            ))
+
+            return product
+
+
+        }
+
     }
 }
