@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">NewProject</string>
+    <string name="full_name">Full Name</string>
+    <string name="register">Register</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="username">Username</string>
+    <string name="remove_product">Remove Product</string>
+    <string name="sure_to_remove">Are you sure you want to remove this product?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="confirm">Confirm</string>
+    <string name="total">TOTAL</string>
+    <string name="delivery_fee">Delivery Fee</string>
+    <string name="empty_cart">Empty Cart</string>
+    <string name="p_0_00">P 0.00</string>
+    <string name="login">Login</string>
+    <string name="no_account_yet">No account yet?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="confirm_checkout">Confirm Checkout</string>
+    <string name="total_price">Total price</string>
+    <string name="clear_cart_items_after_success_checkout">Clear cart items after success checkout</string>
+    <string name="checkout">Checkout</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="your_order_has_been_successfully_submitted">Your order has been successfully submitted!</string>
+    <string name="your_transaction_id_1312789471325239">Your transaction Id: 1312789471325239</string>
+    <string name="no_item_to_check_out">No item to checkout</string>
+    <string name="storename">Storename</string>
+</resources>
