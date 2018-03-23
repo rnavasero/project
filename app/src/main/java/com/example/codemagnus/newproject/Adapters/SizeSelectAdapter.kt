@@ -2,11 +2,14 @@ package com.example.codemagnus.newproject.Adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.codemagnus.newproject.Activities.MainActivity
 import com.example.codemagnus.newproject.Fragments.CheckOutFragment
+import com.example.codemagnus.newproject.Fragments.SizeSelectionFragment.Companion.category
+import com.example.codemagnus.newproject.Fragments.SizeSelectionFragment.Companion.i_image
 import com.example.codemagnus.newproject.Models.Product
 import com.example.codemagnus.newproject.R
 import com.squareup.picasso.Picasso
@@ -16,7 +19,9 @@ import kotlinx.android.synthetic.main.size_content.view.*
 /**
  * Created by codemagnus on 3/22/18.
  */
-class SizeSelectAdapter(val mContext:Context):RecyclerView.Adapter<SizeSelectAdapter.ViewHolder>() {
+class SizeSelectAdapter(private val mContext:Context, var _category:String?,var _image:Int?,var _name:String?):RecyclerView.Adapter<SizeSelectAdapter.ViewHolder>() {
+
+    private val TAG2 = "#####################"
 
     var mActivity: MainActivity? = null
     var itemList:MutableList<Product> = mutableListOf()
@@ -26,7 +31,7 @@ class SizeSelectAdapter(val mContext:Context):RecyclerView.Adapter<SizeSelectAda
         itemList = mActivity!!.sData
     }
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.onBindItemHolder(position)
+        holder?.onBindItemHolder(position,mContext)
     }
 
     override fun getItemCount(): Int {
@@ -40,31 +45,64 @@ class SizeSelectAdapter(val mContext:Context):RecyclerView.Adapter<SizeSelectAda
 
     open inner class ViewHolder(v:View):RecyclerView.ViewHolder(v) {
 
-        fun onBindItemHolder(position: Int){
+        private val _c = _category
+        private val _i = _image
+        private val _n = _name
+
+
+        fun onBindItemHolder(position: Int,mContext: Context){
 
             val item = itemList[position]
+            itemView.tv_size_sample.text = item.size
 
-            if(item.name == "Small")
-            {
-                Picasso.with(mContext).load(item.imgUrl).resize(150,150   ).centerCrop().into(itemView.im_size)
-                itemView.tv_size_sample.text = item.name
-            }
-            if(item.name == "Medium")
-            {
-                Picasso.with(mContext).load(item.imgUrl).resize(150,150   ).centerCrop().into(itemView.im_size)
-                itemView.tv_size_sample.text = item.name
-            }
-            if(item.name == "Large")
-            {
-                Picasso.with(mContext).load(item.imgUrl).resize(150,150   ).centerCrop().into(itemView.im_size)
-                itemView.tv_size_sample.text = item.name
+            itemView.ll_itemSize.setOnClickListener {
+
+                when (item.size){
+                "Small"->
+                {
+                    item.category = _c!!
+                    item.name = _n!!
+                    item.qty = 1
+                    item.flavor = item.size
+                    item.imgUrl = _i!!
+                    item.price = 10.00
+
+
+                    mActivity!!.cart.add(item)
+                    mActivity!!.setCartCount(mActivity!!.productCount + 1)
+
+                }
+                "Medium"->
+                {
+                    item.category = _c!!
+                    item.name = _n!!
+                    item.qty = 1
+                    item.flavor = item.size
+                    item.imgUrl = _i!!
+                    item.price = 15.00
+
+
+                    mActivity!!.cart.add(item)
+                    mActivity!!.setCartCount(mActivity!!.productCount + 1)
+
+                }
+                "Large"->
+                {
+                    item.category = _c!!
+                    item.name = _n!!
+                    item.qty = 1
+                    item.flavor = item.size
+                    item.imgUrl = _i!!
+                    item.price = 20.00
+
+
+                    mActivity!!.cart.add(item)
+                    mActivity!!.setCartCount(mActivity!!.productCount + 1)
+
+                }
             }
 
-            itemView.ll_itemSize.setOnClickListener{
-                mActivity!!.fm!!.beginTransaction().apply {
-                    replace(R.id.main_frame, CheckOutFragment(), CheckOutFragment.TAG)
-                    addToBackStack(CheckOutFragment.TAG)
-                }.commit()
+               mActivity!!.newFragment(CheckOutFragment(),CheckOutFragment.TAG)
             }
 
         }

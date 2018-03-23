@@ -3,21 +3,21 @@ package com.example.codemagnus.newproject.Activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.Toolbar
-import android.text.TextUtils.replace
 import android.view.Gravity
 import android.view.View
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import android.widget.Toast
-import com.example.codemagnus.newproject.Adapters.CheckOutRecyclerAdapter
 import com.example.codemagnus.newproject.Adapters.ProductAdapter
+import com.example.codemagnus.newproject.Adapters.SizeAdapter
+import com.example.codemagnus.newproject.Adapters.SizeSelectAdapter
 import com.example.codemagnus.newproject.Fragments.CheckOutFragment
-import com.example.codemagnus.newproject.Fragments.SizeSelectionFragment
 import com.example.codemagnus.newproject.Models.Product
 import com.example.codemagnus.newproject.Models.ProductDataBase
 import com.example.codemagnus.newproject.Models.StaticData
@@ -31,7 +31,10 @@ import kotlinx.coroutines.experimental.android.UI
 
 class MainActivity : AppCompatActivity() {
 
-    var mAdapter = CheckOutRecyclerAdapter(this)
+    private val TAG2 = "#####################"
+
+    var mAdapter = SizeAdapter(this, null, null)
+    var cAdapter = SizeSelectAdapter(this, null,null, null)
     var menu: View? = null
     var cartmenu: View? = null
     var cart: MutableList<Product> = ArrayList()
@@ -42,21 +45,26 @@ class MainActivity : AppCompatActivity() {
     var productCount = 0
     var staticData: MutableList<Product> = mutableListOf()
     var sData:MutableList<Product> = mutableListOf()
+    var sData2:MutableList<Product> = mutableListOf()
+    var sData3:MutableList<Product> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        cart.add(Product("0", "Terra Fries",  R.drawable.pcterra,"Flavored Fries","Sour & Cream", "Terra", 199.00, 0))
-        cart.add(Product("1", "Giga Fries",  R.drawable.pcgiga,"Flavored Fries", "Barbeque", "Giga", 149.00, 0))
-        cart.add(Product("2", "Mega Fries",  R.drawable.pcmega,"Flavored Fries","Chili Barbeque", "Mega", 99.00, 0))
-        cart.add(Product("3", "Jumbo Fries",  R.drawable.pcjumbo,"Flavored Fries","Wasabi", "Jumbo", 79.00, 0))
-        cart.add(Product("4", "Large Fries",  R.drawable.pclarge,"Flavored Fries", "Salted Caramel","Large", 55.00, 0))
-        cart.add(Product("5", "Regular Fries",  R.drawable.pcregular,"Flavored Fries", "Regular","Cheddar", 35.00, 0))
+//        cart.add(Product("0", "Terra Fries",  R.drawable.pcterra,"Flavored Fries","Sour & Cream", "Terra", 199.00, 0))
+//        cart.add(Product("1", "Giga Fries",  R.drawable.pcgiga,"Flavored Fries", "Barbeque", "Giga", 149.00, 0))
+//        cart.add(Product("2", "Mega Fries",  R.drawable.pcmega,"Flavored Fries","Chili Barbeque", "Mega", 99.00, 0))
+//        cart.add(Product("3", "Jumbo Fries",  R.drawable.pcjumbo,"Flavored Fries","Wasabi", "Jumbo", 79.00, 0))
+//        cart.add(Product("4", "Large Fries",  R.drawable.pclarge,"Flavored Fries", "Salted Caramel","Large", 55.00, 0))
+//        cart.add(Product("5", "Regular Fries",  R.drawable.pcregular,"Flavored Fries", "Regular","Cheddar", 35.00, 0))
+        productDB = ProductDataBase.init(this@MainActivity)
 
         fm = supportFragmentManager
         staticData = StaticSizeData.getlists()
         sData = StaticData.getlists4()
+        sData2 = StaticData.getlists2()
+        sData3 = StaticData.getlists3()
         setSupportActionBar(mToolbar)
 
         menu = layoutInflater.inflate(R.layout.menu, null)
@@ -172,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun newFragment(fragment: SizeSelectionFragment, tag: String) {
+    fun newFragment(fragment: Fragment?, tag: String) {
         fm!!.beginTransaction().apply {
             replace(R.id.main_frame, fragment, tag)
             addToBackStack(tag)
@@ -182,6 +190,11 @@ class MainActivity : AppCompatActivity() {
     fun setCartCount(count: Int) {
         cartmenu?.tv_cart_count?.text = count.toString()
         productCount = count
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ProductDataBase.destroyInstance()
     }
 }
 

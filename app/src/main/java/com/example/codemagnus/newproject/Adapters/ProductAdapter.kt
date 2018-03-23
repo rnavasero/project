@@ -2,6 +2,7 @@ package com.example.codemagnus.newproject.Adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ import kotlinx.android.synthetic.main.category_content.view.*
  * Created by codemagnus on 3/20/18.
  */
 class ProductAdapter(val mContext:Context?, itemList:MutableList<Product>?):RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+
+    private val TAG2 = "#####################"
     val items = itemList
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -31,25 +34,6 @@ class ProductAdapter(val mContext:Context?, itemList:MutableList<Product>?):Recy
         return items!!.size
     }
 
-//    fun updateCart(product: Product){
-//        for (i in 0 until items!!.size){
-//            if (items?.get(i)?.id == product.id){
-//                items?.get(i)?.qty = product.qty
-//                notifyItemChanged(i)
-//            }
-//        }
-//    }
-
-    fun deleteCard(product: Product){
-        for (i in 0 until items!!.size){
-            if (items?.get(i)?.id == product.id){
-                items?.get(i)?.qty = 0
-                notifyItemChanged(i)
-            }
-        }
-    }
-
-
     open inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
 
         val mActivity = mContext as MainActivity?
@@ -61,22 +45,27 @@ class ProductAdapter(val mContext:Context?, itemList:MutableList<Product>?):Recy
 
             itemView.iv_item_content.setOnClickListener {
 
-                if (item.category == "Flavored Fries") {
+                if (item.category != "Flavored Fries") {
+                    if (item.category == "Fancy Fries"){
+                        SizeSelectionFragment.category = item.category
+                        SizeSelectionFragment.n_name = item.name
+                        SizeSelectionFragment.i_image = item.imgUrl
+
+                        Log.i(TAG2,item.imgUrl.toString())
+                        mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
+
+                    } else if (item.category == "Beverages"){
+                        SizeSelectionFragment.category = item.category
+                        SizeSelectionFragment.n_name = item.name
+                        SizeSelectionFragment.i_image = item.imgUrl
+                        mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
+
+                    }
+                } else {
                     SizeSelectionFragment.category = item.category
+                    SizeSelectionFragment.flavor = item.name
                     mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
 
-
-                }
-
-                if (item.category == "Fancy Fries"){
-                    SizeSelectionFragment.category = item.category
-                    mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
-
-                }
-
-                if (item.category == "Beverages"){
-                    SizeSelectionFragment.category = item.category
-                    mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
 
                 }
             }

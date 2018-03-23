@@ -9,32 +9,32 @@ class StaticSizeData {
     companion object {
         fun getlists(): ArrayList<Product> {
             var product = ArrayList<Product>()
-            product.add(Product("0",
+            product.add(Product(
                     R.drawable.pcregular,
                     "Regular",
                     33.00
             ))
-            product.add(Product("1",
+            product.add(Product(
                     R.drawable.pclarge,
                     "Large",
                     55.00
             ))
-            product.add(Product("2",
+            product.add(Product(
                     R.drawable.pcjumbo,
                     "Jumbo",
                     79.00
             ))
-            product.add(Product("3",
+            product.add(Product(
                     R.drawable.pcmega,
                     "Mega",
                     99.00
             ))
-            product.add(Product("4",
+            product.add(Product(
                     R.drawable.pcgiga,
                     "Giga",
                     149.00
             ))
-            product.add(Product("5",
+            product.add(Product(
                     R.drawable.pcterra,
                     "Terra",
                     199.00

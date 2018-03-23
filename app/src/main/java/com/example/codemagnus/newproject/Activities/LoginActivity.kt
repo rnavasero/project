@@ -10,6 +10,9 @@ import kotlinx.android.synthetic.main.activity_login.*
  * Created by codemagnus on 3/19/18.
  */
 class LoginActivity:AppCompatActivity() {
+
+    private val TAG2 = "#####################"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)

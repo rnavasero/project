@@ -16,13 +16,9 @@ class Product :Parcelable {
 
     constructor()
 
-
-
     @PrimaryKey(autoGenerate = true)
-    var dbId: Int = 0
-
     @ColumnInfo(name = "productId")
-    var id: String = ""
+    var id: Int = 0
 
     @ColumnInfo(name = "productName")
     var name: String = ""
@@ -33,22 +29,26 @@ class Product :Parcelable {
     @ColumnInfo(name = "imageUrl")
     var imgUrl = 0
 
+    @ColumnInfo(name = "category")
     var category:String = ""
 
+    @ColumnInfo(name = "flavor")
     var flavor:String = ""
 
+    @ColumnInfo(name = "size")
     var size:String = ""
 
+    @ColumnInfo(name = "price")
     var price: Double = 0.00
 
+    @ColumnInfo(name = "qty")
     var qty: Int = 0
 
 
 
 
     constructor(parcel: Parcel) : this() {
-        dbId = parcel.readInt()
-        id = parcel.readString()
+        id = parcel.readInt()
         name = parcel.readString()
         description = parcel.readString()
         imgUrl = parcel.readInt()
@@ -62,9 +62,9 @@ class Product :Parcelable {
 
     constructor(jsonObject: JSONObject){
         id = try {
-            jsonObject.getString("id")
+            jsonObject.getInt("id")
         }catch (e: JSONException){
-            ""
+            0
         }
 
         name = try {
@@ -129,7 +129,7 @@ class Product :Parcelable {
         this.flavor = flavor
     }
 
-    constructor(id: String, name: String, description: String, imgUrl: Int, category: String) {
+    constructor(id: Int, name: String, description: String, imgUrl: Int, category: String) {
         this.id = id
         this.name = name
         this.description = description
@@ -137,8 +137,7 @@ class Product :Parcelable {
         this.category = category
     }
 
-    constructor(id: String, name: String, description: String, imgUrl: Int, category: String, flavor: String, price: Double) {
-        this.id = id
+    constructor( name: String, description: String, imgUrl: Int, category: String, flavor: String, price: Double) {
         this.name = name
         this.description = description
         this.imgUrl = imgUrl
@@ -147,7 +146,7 @@ class Product :Parcelable {
         this.price = price
     }
 
-    constructor(id: String, name: String, description: String, imgUrl: Int, category: String, price: Double) {
+    constructor(id: Int, name: String, description: String, imgUrl: Int, category: String, price: Double) {
         this.id = id
         this.name = name
         this.description = description
@@ -156,34 +155,30 @@ class Product :Parcelable {
         this.price = price
     }
 
-    constructor(id: String, imgUrl: Int, size: String) {
-        this.id = id
+    constructor(imgUrl: Int, size: String) {
         this.imgUrl = imgUrl
         this.size = size
     }
 
-    constructor(id: String, imgUrl: Int, size: String, price: Double) {
-        this.id = id
+    constructor(imgUrl: Int, size: String, price: Double) {
         this.imgUrl = imgUrl
         this.size = size
         this.price = price
     }
 
-    constructor(id: String, name: String, imgUrl: Int) {
+    constructor(id: Int, name: String, imgUrl: Int) {
         this.id = id
         this.name = name
         this.imgUrl = imgUrl
     }
 
-    constructor(id: String, name: String, imgUrl: Int, category: String) {
-        this.id = id
+    constructor(name: String, imgUrl: Int, category: String) {
         this.name = name
         this.imgUrl = imgUrl
         this.category = category
     }
 
-    constructor(id: String, name: String, imgUrl: Int, category: String, flavor: String, size: String, price: Double, qty: Int) {
-        this.id = id
+    constructor(name: String, imgUrl: Int, category: String, flavor: String, size: String, price: Double, qty: Int) {
         this.name = name
         this.imgUrl = imgUrl
         this.category = category
@@ -211,8 +206,7 @@ class Product :Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(dbId)
-        parcel.writeString(id)
+        parcel.writeInt(id)
         parcel.writeString(name)
         parcel.writeString(description)
         parcel.writeInt(imgUrl)

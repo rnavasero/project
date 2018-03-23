@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.row_check_out.view.*
  * Created by codemagnus on 3/21/18.
  */
 class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOutRecyclerAdapter.ViewHolder>() {
+
+    private val TAG2 = "#####################"
     var mActivity: MainActivity? = null
 
     init {
@@ -25,25 +27,6 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
 
     override fun getItemCount(): Int {
         return mActivity!!.cart.size
-    }
-
-
-    fun updateCart(product: Product){
-        for (i in 0 until mActivity!!.cart!!.size){
-            if (mActivity?.cart?.get(i)?.id == product.id){
-                mActivity?.cart?.get(i)?.qty = product.qty
-                notifyItemChanged(i)
-            }
-        }
-    }
-
-    fun deleteCard(product: Product){
-        for (i in 0 until mActivity!!.cart!!.size){
-            if (mActivity?.cart?.get(i)?.id == product.id){
-                mActivity?.cart?.get(i)?.qty = 0
-                notifyItemChanged(i)
-            }
-        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -61,9 +44,9 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
 
             val product                         = mActivity!!.cart[position]
             itemView!!.tv_cart_product_name!!.text  = product.name
-            itemView!!.tv_cart_product_price!!.text    = String.format("P %.2f", product.price.toFloat())
-            itemView!!.tv_cart_qty!!.text = product.qty.toString()
-            itemView!!.tv_cart_product_flavor!!.text = product.flavor
+            itemView.tv_cart_product_price!!.text    = String.format("P %.2f", product.price.toFloat())
+            itemView.tv_cart_qty!!.text = product.qty.toString()
+            itemView.tv_cart_product_flavor!!.text = product.flavor
             Picasso.with(mContext).load(product.imgUrl).resize(100, 100).centerCrop().into(itemView.img_product_image)
 
             setProductPrice(product)
@@ -83,41 +66,18 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
                 product.qty -= 1
 
                 if (product.qty <= 1){
-                    product.qty = 0
+                    product.qty = 1
                 }
 
                 mActivity?.setCartCount(mActivity!!.productCount - 1)
                 setProductPrice(product)
             }
-
-            itemView.btn_cart_delete.setOnClickListener {
-                AlertDialog.Builder(mContext).apply {
-                    setTitle(mContext.getString(R.string.remove_product))
-                    setMessage(mContext.getString(R.string.sure_to_remove))
-                    setNegativeButton(mContext.getString(R.string.no), null)
-                    setPositiveButton(mContext.getString(R.string.yes), { dialogInterface, _ ->
-                        dialogInterface.dismiss()
-                        mActivity?.setCartCount(mActivity!!.productCount - product.qty)
-                        mActivity?.mAdapter?.deleteCard(product)
-                        removeProduct()
-                    })
-                }.show()
-            }
-        }
-
-        private fun removeProduct(){
-            if (CheckOutFragment.instance != null)
-                CheckOutFragment.instance!!.setTotalPrice()
-
-            mActivity?.cart!!.removeAt(adapterPosition)
-            notifyItemRemoved(adapterPosition)
         }
 
         private fun setProductPrice(product: Product) {
             if (CheckOutFragment.instance != null)
                 CheckOutFragment.instance!!.setTotalPrice()
 
-            mActivity?.mAdapter?.updateCart(product)
             itemView.tv_cart_qty.text           = product.qty.toString()
             itemView.tv_cart_total_price.text   = String.format ("P %.2f", (product.price * product.qty).toFloat())
         }

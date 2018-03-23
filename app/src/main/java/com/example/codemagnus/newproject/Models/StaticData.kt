@@ -9,7 +9,7 @@ class StaticData {
     companion object {
         fun getlists(): ArrayList<Product> {
             var product = ArrayList<Product>()
-            product.add(Product("0",
+            product.add(Product(
                     "Cheddar",
                     "Description",
                     R.drawable.cheese,
@@ -17,7 +17,7 @@ class StaticData {
                     "Cheddar",
                     0.00
             ))
-            product.add(Product("1",
+            product.add(Product(
                     "Barbeque",
                     "Description",
                     R.drawable.cheese,
@@ -25,7 +25,7 @@ class StaticData {
                     "Barbeque",
                     0.00
             ))
-            product.add(Product("2",
+            product.add(Product(
                     "Salted Caramel",
                     "Description",
                     R.drawable.cheese,
@@ -33,7 +33,7 @@ class StaticData {
                     "Salted Caramel",
                     0.00
             ))
-            product.add(Product("3",
+            product.add(Product(
                     "Wasabi",
                     "Description",
                     R.drawable.cheese,
@@ -41,7 +41,7 @@ class StaticData {
                     "Wasabi",
                     0.00
             ))
-            product.add(Product("4",
+            product.add(Product(
                     "Sour and Cream",
                     "Description",
                     R.drawable.cheese,
@@ -49,7 +49,7 @@ class StaticData {
                     "Sour & Cream",
                     0.00
             ))
-            product.add(Product("5",
+            product.add(Product(
                     "C. Barbeque",
                     "Description",
                     R.drawable.cheese,
@@ -57,7 +57,7 @@ class StaticData {
                     "Chili Barbeque",
                     0.00
             ))
-            product.add(Product("6",
+            product.add(Product(
                     "Garlic Parmesan",
                     "Description",
                     R.drawable.cheese,
@@ -65,7 +65,7 @@ class StaticData {
                     "Garlic Parmesan",
                     0.00
             ))
-            product.add(Product("7",
+            product.add(Product(
                     "Cinnamon & Sugar",
                     "Description",
                     R.drawable.cheese,
@@ -80,27 +80,27 @@ class StaticData {
 
         fun getlists2(): ArrayList<Product> {
             var product = ArrayList<Product>()
-            product.add(Product("0",
+            product.add(Product(
                     "Softdrinks",
                     R.drawable.softdrinks,
                     "Beverages"
             ))
 
 
-            product.add(Product("1",
+            product.add(Product(
                     "Iced Tea",
                     R.drawable.icedtead,
                     "Beverages"
             ))
 
 
-            product.add(Product("2",
+            product.add(Product(
                     "Bottled Water",
                     R.drawable.water,
                     "Beverages"
             ))
 
-            product.add(Product("3",
+            product.add(Product(
                     "Minute Maid",
                     R.drawable.minutemaid,
                     "Beverages"
@@ -113,27 +113,27 @@ class StaticData {
 
         fun getlists3(): ArrayList<Product> {
             var product = ArrayList<Product>()
-            product.add(Product("0",
+            product.add(Product(
                     "Loopy Fries",
                     R.drawable.loopyfries,
                     "Fancy Fries"
             ))
 
 
-            product.add(Product("1",
+            product.add(Product(
                     "Hash Brown",
                     R.drawable.hashbrown,
                     "Fancy Fries"
             ))
 
 
-            product.add(Product("2",
+            product.add(Product(
                     "Jojos",
                     R.drawable.jojos,
                     "Fancy Fries"
             ))
 
-            product.add(Product("3",
+            product.add(Product(
                     "Cheezy Fries",
                     R.drawable.cheese,
                     "Fancy Fries"
@@ -145,22 +145,22 @@ class StaticData {
         }
 
         fun getlists4(): ArrayList<Product> {
-            var product = ArrayList<Product>()
-            product.add(Product("0",
-                    "Small",
-                    R.drawable.cheese
+            val product = ArrayList<Product>()
+            product.add(Product(
+                    R.drawable.cheese,
+                    "Small"
             ))
 
 
-            product.add(Product("1",
-                    "Medium",
-                    R.drawable.cheese
+            product.add(Product(
+                    R.drawable.cheese,
+                    "Medium"
             ))
 
 
-            product.add(Product("2",
-                    "Large",
-                    R.drawable.cheese
+            product.add(Product(
+                    R.drawable.cheese,
+                    "Large"
             ))
 
             return product

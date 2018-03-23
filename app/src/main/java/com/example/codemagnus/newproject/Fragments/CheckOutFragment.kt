@@ -26,6 +26,7 @@ import org.json.JSONObject
  */
 class CheckOutFragment: Fragment() {
 
+    val TAG2 = "#####################"
     private var mActivity: MainActivity? = null
     private var isChecked = false
     private var mTotal = ""

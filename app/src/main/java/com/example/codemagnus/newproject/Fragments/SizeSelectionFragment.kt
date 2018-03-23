@@ -5,14 +5,18 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
 import com.example.codemagnus.newproject.Activities.MainActivity
+import com.example.codemagnus.newproject.Adapters.ProductAdapter
 import com.example.codemagnus.newproject.Adapters.SizeAdapter
 import com.example.codemagnus.newproject.Adapters.SizeSelectAdapter
+import com.example.codemagnus.newproject.Models.Product
 import com.example.codemagnus.newproject.R
+import com.example.codemagnus.newproject.R.id.image
 import com.example.codemagnus.newproject.R.id.rv_sizeselect
 import kotlinx.android.synthetic.main.fragment_size_selection.*
 
@@ -21,18 +25,20 @@ import kotlinx.android.synthetic.main.fragment_size_selection.*
  */
 class SizeSelectionFragment: Fragment() {
 
-
+    private val TAG2 = "#####################"
     private var mActivity:MainActivity? = null
     private var adapter:SizeAdapter? = null
     private var mAdapter:SizeSelectAdapter? = null
 
     companion object {
-        var category = ""
+        var n_name:String? = null
+        var i_image:Int? = null
+        var category:String? = null
+        var flavor:String? = null
         val TAG: String = SizeSelectionFragment::class.java.simpleName
         var instance: SizeSelectionFragment? = SizeSelectionFragment()
 
     }
-
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         instance = this
@@ -43,11 +49,11 @@ class SizeSelectionFragment: Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        print(category)
         mActivity = context as MainActivity?
         mActivity?.setToolbar(false, "Choose desired size")
-        adapter = SizeAdapter(context)
-        mAdapter = SizeSelectAdapter(context)
+        adapter = SizeAdapter(context, category,flavor)
+        mAdapter = SizeSelectAdapter(context, category, i_image, n_name)
 
         if(category == "Flavored Fries"){
             rv_sizeselect.layoutManager = GridLayoutManager(context,2)
@@ -63,8 +69,7 @@ class SizeSelectionFragment: Fragment() {
             rv_sizeselect.layoutManager = GridLayoutManager(context,1)
             rv_sizeselect.adapter = mAdapter
         }
-
-
+        Log.i(TAG2, i_image.toString())
 
     }
 
