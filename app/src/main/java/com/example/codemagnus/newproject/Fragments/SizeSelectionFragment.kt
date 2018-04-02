@@ -29,8 +29,10 @@ class SizeSelectionFragment: Fragment() {
     private var mActivity:MainActivity? = null
     private var adapter:SizeAdapter? = null
     private var mAdapter:SizeSelectAdapter? = null
+    private var items:Product = Product()
 
     companion object {
+        var i_id:String? = null
         var n_name:String? = null
         var i_image:Int? = null
         var category:String? = null
@@ -38,6 +40,12 @@ class SizeSelectionFragment: Fragment() {
         val TAG: String = SizeSelectionFragment::class.java.simpleName
         var instance: SizeSelectionFragment? = SizeSelectionFragment()
 
+    }
+
+    fun newInstance(product: Product):Fragment{
+        var fragment = SizeSelectionFragment()
+        items = product
+        return fragment
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,11 +57,15 @@ class SizeSelectionFragment: Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        print(category)
+
         mActivity = context as MainActivity?
         mActivity?.setToolbar(false, "Choose desired size")
-        adapter = SizeAdapter(context, category,flavor)
+        adapter = SizeAdapter(context, category,flavor, i_id)
         mAdapter = SizeSelectAdapter(context, category, i_image, n_name)
+
+
+        Log.i(TAG2, items.toString())
+
 
         if(category == "Flavored Fries"){
             rv_sizeselect.layoutManager = GridLayoutManager(context,2)
@@ -69,7 +81,8 @@ class SizeSelectionFragment: Fragment() {
             rv_sizeselect.layoutManager = GridLayoutManager(context,1)
             rv_sizeselect.adapter = mAdapter
         }
-        Log.i(TAG2, i_image.toString())
+        Log.i(TAG2,"SIZE FRAGMENT" + items.toString())
+
 
     }
 

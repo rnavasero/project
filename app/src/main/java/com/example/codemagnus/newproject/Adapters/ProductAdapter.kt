@@ -48,14 +48,16 @@ class ProductAdapter(val mContext:Context?, itemList:MutableList<Product>?):Recy
                 if (item.category != "Flavored Fries") {
                     if (item.category == "Fancy Fries"){
                         SizeSelectionFragment.category = item.category
+                        SizeSelectionFragment.i_id = item.id
                         SizeSelectionFragment.n_name = item.name
                         SizeSelectionFragment.i_image = item.imgUrl
 
-                        Log.i(TAG2,item.imgUrl.toString())
+                        Log.i(TAG2,item.toString())
                         mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
 
                     } else if (item.category == "Beverages"){
                         SizeSelectionFragment.category = item.category
+                        SizeSelectionFragment.i_id = item.id
                         SizeSelectionFragment.n_name = item.name
                         SizeSelectionFragment.i_image = item.imgUrl
                         mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
@@ -63,6 +65,7 @@ class ProductAdapter(val mContext:Context?, itemList:MutableList<Product>?):Recy
                     }
                 } else {
                     SizeSelectionFragment.category = item.category
+                    SizeSelectionFragment.i_id = item.id
                     SizeSelectionFragment.flavor = item.name
                     mActivity?.newFragment(SizeSelectionFragment(), SizeSelectionFragment.TAG)
 

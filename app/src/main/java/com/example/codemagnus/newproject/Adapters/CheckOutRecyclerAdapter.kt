@@ -29,6 +29,15 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
         return mActivity!!.cart.size
     }
 
+    fun updateCart(product: Product){
+        for (i in 0 until mActivity!!.cart.size){
+            if (mActivity!!.cart[i].id == product.id){
+                mActivity!!.cart[i].qty = product.qty
+                notifyItemChanged(i)
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.onBindItemHolder(position)
     }
@@ -72,16 +81,55 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
                 mActivity?.setCartCount(mActivity!!.productCount - 1)
                 setProductPrice(product)
             }
+
+            itemView.btn_cart_delete.setOnClickListener {
+                AlertDialog.Builder(mContext).apply {
+                    setTitle(mContext.getString(R.string.remove_product))
+                    setMessage(mContext.getString(R.string.sure_to_remove))
+                    setNegativeButton(mContext.getString(R.string.no), null)
+                    setPositiveButton(mContext.getString(R.string.yes), { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                        mActivity?.setCartCount(mActivity!!.productCount - product.qty)
+                        deleteProduct(product)
+                        removeProduct()
+                    })
+                }.show()
+            }
+
+
         }
+
+        private fun removeProduct(){
+            if (CheckOutFragment.instance != null)
+                CheckOutFragment.instance!!.setTotalPrice()
+
+            mActivity?.cart!!.removeAt(adapterPosition)
+            notifyItemRemoved(adapterPosition)
+        }
+
 
         private fun setProductPrice(product: Product) {
             if (CheckOutFragment.instance != null)
                 CheckOutFragment.instance!!.setTotalPrice()
 
+
             itemView.tv_cart_qty.text           = product.qty.toString()
             itemView.tv_cart_total_price.text   = String.format ("P %.2f", (product.price * product.qty).toFloat())
         }
+
+        private fun deleteProduct(product: Product){
+            for (i in 0 until mActivity!!.cart.size){
+                if (mActivity!!.cart.get(index = i).id == product.id){
+                    mActivity!!.cart.get(index = i).qty = 0
+                    notifyItemChanged(i)
+                }
+            }
+        }
+
+
     }
+
+
 
 
 }

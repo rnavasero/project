@@ -31,7 +31,7 @@ class SizeSelectAdapter(private val mContext:Context, var _category:String?,var 
         itemList = mActivity!!.sData
     }
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.onBindItemHolder(position,mContext)
+        holder?.onBindItemHolder(position)
     }
 
     override fun getItemCount(): Int {
@@ -50,59 +50,49 @@ class SizeSelectAdapter(private val mContext:Context, var _category:String?,var 
         private val _n = _name
 
 
-        fun onBindItemHolder(position: Int,mContext: Context){
+        fun onBindItemHolder(position: Int){
 
             val item = itemList[position]
             itemView.tv_size_sample.text = item.size
 
             itemView.ll_itemSize.setOnClickListener {
 
-                when (item.size){
-                "Small"->
-                {
-                    item.category = _c!!
-                    item.name = _n!!
-                    item.qty = 1
-                    item.flavor = item.size
-                    item.imgUrl = _i!!
-                    item.price = 10.00
+                    when (item.size){
 
+                        "Small"->
+                        {
+                            item.category = _c!!
+                            item.name = _n!!
+                            item.qty = 1
+                            item.flavor = item.size
+                            item.imgUrl = _i!!
+                            item.price = 10.00
+                        }
 
-                    mActivity!!.cart.add(item)
-                    mActivity!!.setCartCount(mActivity!!.productCount + 1)
+                        "Medium"->
+                        {
+                            item.category = _c!!
+                            item.name = _n!!
+                            item.qty = 1
+                            item.flavor = item.size
+                            item.imgUrl = _i!!
+                            item.price = 15.00
+                        }
 
-                }
-                "Medium"->
-                {
-                    item.category = _c!!
-                    item.name = _n!!
-                    item.qty = 1
-                    item.flavor = item.size
-                    item.imgUrl = _i!!
-                    item.price = 15.00
+                        "Large"->
+                        {
+                            item.category = _c!!
+                            item.name = _n!!
+                            item.qty = 1
+                            item.flavor = item.size
+                            item.imgUrl = _i!!
+                            item.price = 20.00
+                        }
 
-
-                    mActivity!!.cart.add(item)
-                    mActivity!!.setCartCount(mActivity!!.productCount + 1)
-
-                }
-                "Large"->
-                {
-                    item.category = _c!!
-                    item.name = _n!!
-                    item.qty = 1
-                    item.flavor = item.size
-                    item.imgUrl = _i!!
-                    item.price = 20.00
-
-
-                    mActivity!!.cart.add(item)
-                    mActivity!!.setCartCount(mActivity!!.productCount + 1)
-
-                }
-            }
-
-               mActivity!!.newFragment(CheckOutFragment(),CheckOutFragment.TAG)
+                    }
+                mActivity!!.cart.add(Product(item.id, item.name, item.description, item.imgUrl,item.category,item.flavor,item.size,item.price,item.qty))
+                mActivity!!.setCartCount(mActivity!!.productCount + 1)
+                mActivity!!.newFragment(CheckOutFragment(),CheckOutFragment.TAG)
             }
 
         }

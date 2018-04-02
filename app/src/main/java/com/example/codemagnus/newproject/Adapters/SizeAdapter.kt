@@ -2,11 +2,13 @@ package com.example.codemagnus.newproject.Adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.codemagnus.newproject.Activities.MainActivity
 import com.example.codemagnus.newproject.Fragments.CheckOutFragment
+import com.example.codemagnus.newproject.Fragments.SizeSelectionFragment
 import com.example.codemagnus.newproject.Models.Product
 import com.example.codemagnus.newproject.R
 import com.squareup.picasso.Picasso
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.size_content.view.*
 /**
  * Created by codemagnus on 3/20/18.
  */
-class SizeAdapter(val mContext:Context,var category:String?, var flavor:String?):RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
+class SizeAdapter(val mContext:Context,var category:String?, var flavor:String?, var itemID:String?):RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
     private val TAG2 = "#####################"
     var mActivity: MainActivity? = null
@@ -44,13 +46,13 @@ class SizeAdapter(val mContext:Context,var category:String?, var flavor:String?)
 
         private val c = category
         private val f = flavor
+        private val id = itemID
 
 
 
         fun onBindItem(position: Int, mContext: Context){
 
             val item = itemList[position]
-            val name = item.name
             val size = item.size
             val image = item.imgUrl
 
@@ -61,62 +63,78 @@ class SizeAdapter(val mContext:Context,var category:String?, var flavor:String?)
 
                 when (item.size){
                     "Regular"->{
-                        item.category = c!!
+                        item.id = "${itemID.toString()}1"
+                        item.category = "Flavored Fries"
                         item.flavor = f!!
-                        item.name = c
+                        item.name = c!!
                         item.qty = 1
                         item.size = size
                         item.imgUrl = image
+                        SizeSelectionFragment().newInstance(item)
+
                     }
 
                     "Large"->{
+                        item.id = "${itemID.toString()}2"
                         item.category = c!!
                         item.flavor = f!!
                         item.name = c
                         item.qty = 1
                         item.size = size
                         item.imgUrl = image
+                        SizeSelectionFragment().newInstance(item)
                     }
 
                     "Jumbo"->{
+                        item.id = "${itemID.toString()}3"
                         item.category = c!!
                         item.flavor = f!!
                         item.name = c
                         item.qty = 1
                         item.size = size
                         item.imgUrl = image
+                        SizeSelectionFragment().newInstance(item)
                     }
 
                     "Mega"->{
+                        item.id = "${itemID.toString()}4"
                         item.category = c!!
                         item.flavor = f!!
                         item.name = c
                         item.qty = 1
                         item.size = size
                         item.imgUrl = image
+                        SizeSelectionFragment().newInstance(item)
                     }
 
                     "Giga"->{
+                        item.id = "${itemID.toString()}5"
                         item.category = c!!
                         item.flavor = f!!
                         item.name = c
                         item.qty = 1
                         item.size = size
                         item.imgUrl = image
+                        SizeSelectionFragment().newInstance(item)
                     }
 
                     "Terra"->{
+                        item.id = "${itemID.toString()}6"
                         item.category = c!!
                         item.flavor = f!!
                         item.name = c
                         item.qty = 1
                         item.size = size
                         item.imgUrl = image
+                        SizeSelectionFragment().newInstance(item)
                     }
                 }
-                mActivity!!.cart.add(item)
+                mActivity!!.cart.add(Product(item.id, item.name, item.description, item.imgUrl,item.category,item.flavor,item.size,item.price,item.qty))
                 mActivity!!.setCartCount(mActivity!!.productCount+1)
+                SizeSelectionFragment().newInstance(item)
                 mActivity!!.newFragment(CheckOutFragment(),CheckOutFragment.TAG)
+                Log.i(TAG2,item.toString())
+
 
             }
 

@@ -12,13 +12,15 @@ import org.json.JSONObject
  * Created by CDI on 2/23/18
  */
 @Entity(tableName = "cartData")
-class Product :Parcelable {
+class Product{
 
     constructor()
 
     @PrimaryKey(autoGenerate = true)
+    var dbId: Int = 0
+
     @ColumnInfo(name = "productId")
-    var id: Int = 0
+    var id: String = ""
 
     @ColumnInfo(name = "productName")
     var name: String = ""
@@ -44,27 +46,11 @@ class Product :Parcelable {
     @ColumnInfo(name = "qty")
     var qty: Int = 0
 
-
-
-
-    constructor(parcel: Parcel) : this() {
-        id = parcel.readInt()
-        name = parcel.readString()
-        description = parcel.readString()
-        imgUrl = parcel.readInt()
-        category = parcel.readString()
-        flavor = parcel.readString()
-        size = parcel.readString()
-        price = parcel.readDouble()
-        qty = parcel.readInt()
-    }
-
-
     constructor(jsonObject: JSONObject){
         id = try {
-            jsonObject.getInt("id")
+            jsonObject.getString("id")
         }catch (e: JSONException){
-            0
+            ""
         }
 
         name = try {
@@ -92,143 +78,17 @@ class Product :Parcelable {
         }
     }
 
-
-
-    constructor(name: String, category: String, flavor: String, size: String, price: Double, qty: Int) {
-        this.name = name
-        this.category = category
-        this.flavor = flavor
-        this.size = size
-        this.price = price.toDouble()
-        this.qty = qty
-    }
-
-    constructor(name: String, category: String, size: String, price: Double, qty: Int) {
-        this.name = name
-        this.category = category
-        this.size = size
-        this.price = price.toDouble()
-        this.qty = qty
-    }
-
-    constructor(name: String, category: String, price: Double, qty: Int) {
-        this.name = name
-        this.category = category
-        this.price = price
-        this.qty = qty
-    }
-
-    constructor(name: String, category: String) {
-        this.name = name
-        this.category = category
-    }
-
-    constructor(name: String, category: String, flavor: String) {
-        this.name = name
-        this.category = category
-        this.flavor = flavor
-    }
-
-    constructor(id: Int, name: String, description: String, imgUrl: Int, category: String) {
+    constructor(id: String, name: String, description: String, imgUrl: Int, category: String, flavor: String, size: String, price: Double, qty: Int) {
         this.id = id
         this.name = name
         this.description = description
         this.imgUrl = imgUrl
         this.category = category
-    }
-
-    constructor( name: String, description: String, imgUrl: Int, category: String, flavor: String, price: Double) {
-        this.name = name
-        this.description = description
-        this.imgUrl = imgUrl
-        this.category = category
-        this.flavor = flavor
-        this.price = price
-    }
-
-    constructor(id: Int, name: String, description: String, imgUrl: Int, category: String, price: Double) {
-        this.id = id
-        this.name = name
-        this.description = description
-        this.imgUrl = imgUrl
-        this.category = category
-        this.price = price
-    }
-
-    constructor(imgUrl: Int, size: String) {
-        this.imgUrl = imgUrl
-        this.size = size
-    }
-
-    constructor(imgUrl: Int, size: String, price: Double) {
-        this.imgUrl = imgUrl
-        this.size = size
-        this.price = price
-    }
-
-    constructor(id: Int, name: String, imgUrl: Int) {
-        this.id = id
-        this.name = name
-        this.imgUrl = imgUrl
-    }
-
-    constructor(name: String, imgUrl: Int, category: String) {
-        this.name = name
-        this.imgUrl = imgUrl
-        this.category = category
-    }
-
-    constructor(name: String, imgUrl: Int, category: String, flavor: String, size: String, price: Double, qty: Int) {
-        this.name = name
-        this.imgUrl = imgUrl
-        this.category = category
         this.flavor = flavor
         this.size = size
         this.price = price
         this.qty = qty
     }
 
-
-    override fun toString(): String {
-        val jsonObject = JSONObject()
-
-        try {
-            jsonObject.put("id", id)
-            jsonObject.put("name", name)
-            jsonObject.put("description", description)
-            jsonObject.put("price", price)
-            jsonObject.put("imageUrl", imgUrl)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
-        return jsonObject.toString()
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(name)
-        parcel.writeString(description)
-        parcel.writeInt(imgUrl)
-        parcel.writeString(category)
-        parcel.writeString(flavor)
-        parcel.writeString(size)
-        parcel.writeDouble(price)
-        parcel.writeInt(qty)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Product> {
-        override fun createFromParcel(parcel: Parcel): Product {
-            return Product(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Product?> {
-            return arrayOfNulls(size)
-        }
-    }
 
 }

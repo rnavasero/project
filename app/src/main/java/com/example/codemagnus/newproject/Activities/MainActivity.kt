@@ -9,11 +9,13 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import android.widget.Toast
+import com.android.volley.VolleyError
 import com.example.codemagnus.newproject.Adapters.ProductAdapter
 import com.example.codemagnus.newproject.Adapters.SizeAdapter
 import com.example.codemagnus.newproject.Adapters.SizeSelectAdapter
@@ -28,13 +30,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_cart.view.*
 import kotlinx.android.synthetic.main.menu.*
 import kotlinx.coroutines.experimental.android.UI
+import org.json.JSONObject
+import java.nio.charset.Charset
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG2 = "#####################"
 
-    var mAdapter = SizeAdapter(this, null, null)
-    var cAdapter = SizeSelectAdapter(this, null,null, null)
     var menu: View? = null
     var cartmenu: View? = null
     var cart: MutableList<Product> = ArrayList()
@@ -133,10 +135,10 @@ class MainActivity : AppCompatActivity() {
         if (fm?.backStackEntryCount == 0) {
             if (cart.isNotEmpty()) {
                 val alert = AlertDialog.Builder(this)
-                alert.setTitle("Exit to Application")
-                alert.setMessage("Do you want to save/update your cart items?")
+                alert.setTitle("You have pending transaction!")
+                alert.setMessage("Are you sure you want to logout?")
                 alert.setNegativeButton("No", { _, _ ->
-                    super.onBackPressed()
+
                 })
                 alert.setPositiveButton("Yes", { _, _ ->
                     async(UI) {
@@ -195,6 +197,19 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         ProductDataBase.destroyInstance()
+    }
+
+    fun showRequestError(error: VolleyError) {
+        if (error.networkResponse != null) {
+            val err = String(error.networkResponse.data, Charset.forName("UTF-8"))
+            val errString = JSONObject(err).getJSONArray("errors").getJSONObject(0).getString("message")
+            AlertDialog.Builder(this@MainActivity).apply {
+                setTitle("Error")
+                setMessage(errString)
+                setPositiveButton("Ok", null)
+            }.show()
+            Log.e("MainActivity", "error: $err")
+        }
     }
 }
 
