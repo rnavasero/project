@@ -33,6 +33,14 @@ class Session (context: Context){
         return User(jsonObject)
     }
 
+    fun setToken(token:String){
+        editor.putString(USER_TOKEN, token).apply()
+    }
+
+    fun getToken():String{
+        return sharedPreferences.getString(USER_TOKEN,"")
+    }
+
     private fun setUserLogIn(isLogin: Boolean){
         editor.putBoolean(USER_LOGIN, isLogin).apply()
     }
@@ -49,5 +57,6 @@ class Session (context: Context){
         const val USER_PREFERENCE = "com.mycart.advance"
         const val USER_OBJECT     = "userObject"
         const val USER_LOGIN      = "userLogin"
+        var USER_TOKEN            = "userKey"
     }
 }

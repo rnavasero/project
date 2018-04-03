@@ -7,7 +7,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button_green">
 
         <TextView
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
@@ -16,9 +17,9 @@
             android:id="@+id/textView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/rounded_button_yellow2"
             android:text="@string/confirm_checkout"
-            android:textColor="@color/white"
+            android:textColor="@color/green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,26 +52,28 @@
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="@+id/textView7" />
 
-        <CheckBox
+        <TextView
             android:id="@+id/cb_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:layout_marginEnd="@dimen/dp_8"
             android:layout_marginStart="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_16"
-            android:text="@string/clear_cart_items_after_success_checkout"
+            android:text="Items cleared after success checkout"
             app:layout_constraintEnd_toEndOf="@+id/tv_confirm_total_price"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <Button
             android:id="@+id/btn_check_now"
+            android:textColor="@color/green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_16"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_yellow"
             android:paddingLeft="@dimen/dp_32"
             android:paddingRight="@dimen/dp_32"
             android:text="@string/checkout"

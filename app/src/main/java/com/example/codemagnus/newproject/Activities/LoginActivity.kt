@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.widget.ArrayAdapter
 import com.android.volley.VolleyError
 import com.example.codemagnus.newproject.R
 import com.example.codemagnus.newproject.Session.Session
@@ -12,17 +13,22 @@ import com.mycart.advance.https.API
 import com.mycart.advance.https.APIRequest
 import kotlinx.android.synthetic.main.activity_login.*
 
+
 /**
  * Created by codemagnus on 3/19/18.
  */
 class LoginActivity:AppCompatActivity() {
 
+    private val storeName: List<String> = listOf("SM-Calamba","SM-Sta.Rosa", "SM-Turbina", "Waltermart-Calamba" )
     private val TAG2 = "#####################"
     private var session: Session? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        var arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, storeName)
+        spinner.setAdapter(arrayAdapter)
 
         session = Session(this)
         if (session?.isUserLogin()!!){
@@ -31,8 +37,7 @@ class LoginActivity:AppCompatActivity() {
 
         btn_login.setOnClickListener {
             if (isFieldValid()){
-                startNewActivity()
-                //postLogin()
+                postLogin()
             }
         }
 
@@ -71,12 +76,6 @@ class LoginActivity:AppCompatActivity() {
 
     private fun isFieldValid(): Boolean{
 
-        if (TextUtils.isEmpty(et_login_storename.text.toString())){
-            input_login_storename.error = "Storename is required"
-            return false
-        }
-
-        input_login_storename.error = null
 
         if (TextUtils.isEmpty(et_login_username.text.toString())){
             input_login_username.error = "Username is required"

@@ -1,37 +1,52 @@
 package com.example.codemagnus.newproject.Activities
 
+import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.Toolbar
+import android.text.TextUtils
+import android.text.TextUtils.replace
 import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
-import kotlinx.coroutines.experimental.async
-import org.jetbrains.anko.coroutines.experimental.bg
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.codemagnus.newproject.Adapters.ProductAdapter
-import com.example.codemagnus.newproject.Adapters.SizeAdapter
-import com.example.codemagnus.newproject.Adapters.SizeSelectAdapter
 import com.example.codemagnus.newproject.Fragments.CheckOutFragment
+import com.example.codemagnus.newproject.Fragments.SuccessFragment
 import com.example.codemagnus.newproject.Models.Product
 import com.example.codemagnus.newproject.Models.ProductDataBase
 import com.example.codemagnus.newproject.Models.StaticData
 import com.example.codemagnus.newproject.Models.StaticSizeData
 import com.example.codemagnus.newproject.R
+import com.example.codemagnus.newproject.R.id.*
 import com.example.codemagnus.newproject.Session.Session
+import com.mycart.advance.https.API
+import com.mycart.advance.https.APIRequest
+import com.mycart.advance.https.APIRequest.changePass
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.changepass.*
+import kotlinx.android.synthetic.main.changepass.view.*
+import kotlinx.android.synthetic.main.dialog_confirm_checkout.view.*
 import kotlinx.android.synthetic.main.layout_cart.view.*
 import kotlinx.android.synthetic.main.menu.*
-import kotlinx.coroutines.experimental.android.UI
 import org.json.JSONObject
 import java.nio.charset.Charset
+import java.util.HashMap
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,17 +64,16 @@ class MainActivity : AppCompatActivity() {
     var sData:MutableList<Product> = mutableListOf()
     var sData2:MutableList<Product> = mutableListOf()
     var sData3:MutableList<Product> = mutableListOf()
+    var currentPass = ""
+    var newPass = ""
+    var cnewPass = ""
 
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        cart.add(Product("0", "Terra Fries",  R.drawable.pcterra,"Flavored Fries","Sour & Cream", "Terra", 199.00, 0))
-//        cart.add(Product("1", "Giga Fries",  R.drawable.pcgiga,"Flavored Fries", "Barbeque", "Giga", 149.00, 0))
-//        cart.add(Product("2", "Mega Fries",  R.drawable.pcmega,"Flavored Fries","Chili Barbeque", "Mega", 99.00, 0))
-//        cart.add(Product("3", "Jumbo Fries",  R.drawable.pcjumbo,"Flavored Fries","Wasabi", "Jumbo", 79.00, 0))
-//        cart.add(Product("4", "Large Fries",  R.drawable.pclarge,"Flavored Fries", "Salted Caramel","Large", 55.00, 0))
-//        cart.add(Product("5", "Regular Fries",  R.drawable.pcregular,"Flavored Fries", "Regular","Cheddar", 35.00, 0))
+
         productDB = ProductDataBase.init(this@MainActivity)
 
         fm = supportFragmentManager
@@ -89,7 +103,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
         rv_main1.layoutManager = GridLayoutManager(this, 4)
         rv_main1.adapter = ProductAdapter(this, StaticData.getlists())
 
@@ -107,12 +120,70 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menu_change_pass -> {
 
+                    val alert = AlertDialog.Builder(this    )
+                    val v = LayoutInflater.from(this).inflate(R.layout.changepass, null)
+                    alert.setView(v)
+                    val dialog = alert.create()
+
+                    v.btn_confirm.setOnClickListener{
+                        val cp = v.et_current_password.text.toString()
+                        val np = v.et_new_password.text.toString()
+                        val cnp = v.et_cnew_password.text.toString()
+
+                        if (v.et_current_password.text.toString().isEmpty()){
+                            v.input_current_password.error = "This field is required"
+                            return@setOnClickListener
+                        }
+
+                        if (v.et_new_password.text.toString().isEmpty()){
+                            v.input_new_password.error = "This field is required"
+                            return@setOnClickListener
+                        }
+
+                        if (v.et_cnew_password.text.toString().isEmpty()){
+                            v.input_cnew_password.error = "This field is required"
+                            return@setOnClickListener
+                        }
+
+
+                        val params:MutableMap<String, String> = HashMap()
+                        params["currentPassword"] = cp
+                        params["newPassword"] = np
+                        params["confirmPassword"] = cnp
+
+                        APIRequest.changePass(this, API.CHANGEPASS, params, object : APIRequest.URLCallback{
+                            override fun didUrlResponse(response: String) {
+                                dialog.dismiss()
+                            }
+
+                            override fun didUrlError(error: VolleyError) {
+
+                            }
+
+                        })
+
+
+                    }
+
+                    dialog.show()
+
                 }
 
                 R.id.menu_logout -> {
-                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
+
+                    if (cart.isNotEmpty()) {
+                        val alert = AlertDialog.Builder(this)
+                        alert.setTitle("You have pending transaction!")
+                        alert.setMessage("Are you sure you want to logout?")
+                        alert.setNegativeButton("No", { _, _ ->
+
+                        })
+                        alert.setPositiveButton("Yes", { _, _ ->
+                            logout()
+                        }).show()
+
+                    }else
+                        logout()
                 }
             }
             true
@@ -141,32 +212,42 @@ class MainActivity : AppCompatActivity() {
 
                 })
                 alert.setPositiveButton("Yes", { _, _ ->
-                    async(UI) {
-                        bg {
-                            productDB?.productDao()?.deleteAll()
-
-                            for (crt in cart) {
-                                productDB?.productDao()?.insert(crt)
-                            }
-                        }
-
-                        Toast.makeText(this@MainActivity, "Cart items saved", Toast.LENGTH_SHORT).show()
-                        super.onBackPressed()
-                    }
+                    logout()
                 }).show()
+
             } else {
-                async(UI) {
-                    bg {
-                        productDB?.productDao()?.deleteAll()
-                    }
-                }
-                super.onBackPressed()
+
+                val alert = AlertDialog.Builder(this)
+                alert.setTitle("Exit to Login Page")
+                alert.setMessage("Are you sure you want to logout?")
+                alert.setNegativeButton("No", { _, _ ->
+
+                })
+                alert.setPositiveButton("Yes", { _, _ ->
+                    logout()
+                }).show()
+
             }
         } else {
             setToolbar(true, "Potato Corner")
             super.onBackPressed()
         }
     }
+
+    private fun logout(){
+
+        APIRequest.postLogout(this,API.LOGOUT, object : APIRequest.URLCallback{
+            override fun didUrlResponse(response: String) {
+                Session(this@MainActivity).deAuthourize()
+                startNewActivity()
+            }
+
+            override fun didUrlError(error: VolleyError) {
+            }
+        })
+
+    }
+
 
     fun setToolbar(isMain: Boolean, mTitle: String) {
         title = mTitle
@@ -211,5 +292,12 @@ class MainActivity : AppCompatActivity() {
             Log.e("MainActivity", "error: $err")
         }
     }
+
+    private fun startNewActivity(){
+        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+        finish()
+    }
+
+
 }
 

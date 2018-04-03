@@ -13,13 +13,10 @@ import com.android.volley.VolleyError
 import com.example.codemagnus.newproject.Activities.MainActivity
 import com.example.codemagnus.newproject.Adapters.CheckOutRecyclerAdapter
 import com.example.codemagnus.newproject.R
-import com.example.codemagnus.newproject.R.id.*
 import com.mycart.advance.https.API
 import com.mycart.advance.https.APIRequest
 import kotlinx.android.synthetic.main.dialog_confirm_checkout.view.*
 import kotlinx.android.synthetic.main.fragment_check_out.*
-import kotlinx.coroutines.experimental.android.UI
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -68,9 +65,6 @@ class CheckOutFragment: Fragment() {
                 alert.setView(v)
 
                 v.tv_confirm_total_price.text = mTotal
-                v.cb_dialog.setOnCheckedChangeListener { _, b ->
-                    isChecked = b
-                }
 
                 val dialog = alert.create()
                 v.btn_check_now.setOnClickListener{
@@ -82,65 +76,50 @@ class CheckOutFragment: Fragment() {
             }
         }
 
-        btn_checkout.setOnClickListener {
-            if (mActivity?.cart!!.isEmpty()){
-                Toast.makeText(context, getString(R.string.no_item_to_check_out), Toast.LENGTH_SHORT).show()
-            }else{
-                val alert = AlertDialog.Builder(context)
-                val v = LayoutInflater.from(context).inflate(R.layout.dialog_confirm_checkout, null)
-                alert.setView(v)
 
-                v.tv_confirm_total_price.text = mTotal
-                v.cb_dialog.setOnCheckedChangeListener { _, b ->
-                    isChecked = b
-                }
-
-                val dialog = alert.create()
-                v.btn_check_now.setOnClickListener{
-                    dialog.dismiss()
-                    //postCheckOut()
-                }
-
-                dialog.show()
-            }
-        }
     }
 
     private fun postCheckOut() {
-        val jsonObj     = JSONObject()
-        val jsonArray   = JSONArray()
 
-        for (i in 0 until mActivity?.cart!!.size){
-            val product = mActivity?.cart!![i]
-            jsonObj.put("productId", product.id)
-            jsonObj.put("quantity", product.qty)
-            jsonArray.put(jsonObj)
+        try {
+            val jsonObj     = JSONObject()
+            val jsonArray   = JSONArray()
+
+            for (i in 0 until mActivity?.cart!!.size){
+                val product = mActivity?.cart!![i]
+                jsonObj.put("productId", product.id)
+                jsonObj.put("quantity", product.qty)
+                jsonArray.put(jsonObj)
+            }
+
+            val items = JSONObject()
+            items.put("items", jsonArray)
+
+            val map:HashMap<String, String> = HashMap()
+            map["data"] = jsonObj.toString()
+            map["id"]   = mActivity?.session?.user()?.id.toString()
+
+            val mapHedear:HashMap<String, String> = HashMap()
+            mapHedear["x-access-token"] = mActivity?.session?.user()!!.token
+
+            APIRequest.postWithToken(context, API.CHECKOUT, mapHedear, map, object : APIRequest.URLCallback{
+                override fun didUrlResponse(response: String) {
+                    Log.i(TAG, "checkout: $response")
+                    val json = JSONObject(response)
+                    if (json.getBoolean("success")){
+                        mActivity?.newFragment(SuccessFragment().newInstance(response), SuccessFragment.TAG)
+                    }
+                }
+
+                override fun didUrlError(error: VolleyError) {
+                    mActivity?.showRequestError(error)
+                }
+
+            })
+        }catch (e:Exception){
+            e.printStackTrace()
         }
 
-        val items = JSONObject()
-        items.put("items", jsonArray)
-
-        val map:HashMap<String, String> = HashMap()
-        map["data"] = jsonObj.toString()
-        map["id"]   = mActivity?.session?.user()?.id.toString()
-
-        val mapHedear:HashMap<String, String> = HashMap()
-        mapHedear["x-access-token"] = mActivity?.session?.user()!!.token
-
-        APIRequest.postWithToken(context, API.CHECKOUT, mapHedear, map, object : APIRequest.URLCallback{
-            override fun didUrlResponse(response: String) {
-                Log.i(TAG, "checkout: $response")
-                val json = JSONObject(response)
-                if (json.getBoolean("success")){
-                    mActivity?.newFragment(SuccessFragment().newInstance(response), SuccessFragment.TAG)
-                }
-            }
-
-            override fun didUrlError(error: VolleyError) {
-                mActivity?.showRequestError(error)
-            }
-
-        })
     }
 
     fun setTotalPrice(){

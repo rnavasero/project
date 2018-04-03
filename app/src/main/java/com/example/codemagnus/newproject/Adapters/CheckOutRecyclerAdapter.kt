@@ -92,6 +92,7 @@ class CheckOutRecyclerAdapter(val mContext:Context):RecyclerView.Adapter<CheckOu
                         mActivity?.setCartCount(mActivity!!.productCount - product.qty)
                         deleteProduct(product)
                         removeProduct()
+                        updateCart(product)
                     })
                 }.show()
             }
