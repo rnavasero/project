@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.size_content.view.*
 /**
  * Created by codemagnus on 3/22/18.
  */
-class SizeSelectAdapter(private val mContext:Context, var _category:String?,var _image:Int?,var _name:String?):RecyclerView.Adapter<SizeSelectAdapter.ViewHolder>() {
+class SizeSelectAdapter(private val mContext:Context, var _category:String?,var _image:Int?,var _name:String?, private var itemID:String?):RecyclerView.Adapter<SizeSelectAdapter.ViewHolder>() {
 
     private val TAG2 = "#####################"
 
@@ -48,6 +48,7 @@ class SizeSelectAdapter(private val mContext:Context, var _category:String?,var 
         private val _c = _category
         private val _i = _image
         private val _n = _name
+        private val _i_ID = itemID
 
 
         fun onBindItemHolder(position: Int){
@@ -61,6 +62,7 @@ class SizeSelectAdapter(private val mContext:Context, var _category:String?,var 
 
                         "Small"->
                         {
+                            item.id = "${itemID.toString()}1"
                             item.category = _c!!
                             item.name = _n!!
                             item.qty = 1
@@ -71,6 +73,7 @@ class SizeSelectAdapter(private val mContext:Context, var _category:String?,var 
 
                         "Medium"->
                         {
+                            item.id = "${itemID.toString()}2"
                             item.category = _c!!
                             item.name = _n!!
                             item.qty = 1
@@ -81,6 +84,7 @@ class SizeSelectAdapter(private val mContext:Context, var _category:String?,var 
 
                         "Large"->
                         {
+                            item.id = "${itemID.toString()}3"
                             item.category = _c!!
                             item.name = _n!!
                             item.qty = 1

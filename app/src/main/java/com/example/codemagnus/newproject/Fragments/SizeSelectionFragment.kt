@@ -61,7 +61,7 @@ class SizeSelectionFragment: Fragment() {
         mActivity = context as MainActivity?
         mActivity?.setToolbar(false, "Choose desired size")
         adapter = SizeAdapter(context, category,flavor, i_id)
-        mAdapter = SizeSelectAdapter(context, category, i_image, n_name)
+        mAdapter = SizeSelectAdapter(context, category, i_image, n_name, i_id)
 
 
         Log.i(TAG2, items.toString())

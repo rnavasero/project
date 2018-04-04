@@ -67,7 +67,7 @@ class StaticData {
             ))
             product.add(Product(
                     "600",
-                    "C. Barbeque",
+                    "Chili Barbeque",
                     "Description",
                     R.drawable.cheese,
                     "Flavored Fries",

@@ -145,6 +145,10 @@ class MainActivity : AppCompatActivity() {
                             return@setOnClickListener
                         }
 
+                        if(v.et_new_password.text.toString()!= v.et_cnew_password.text.toString()){
+                            v.input_cnew_password.error = "Password mismatch!"
+                        }
+
 
                         val params:MutableMap<String, String> = HashMap()
                         params["currentPassword"] = cp
